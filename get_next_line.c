@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:32:58 by ccambium          #+#    #+#             */
-/*   Updated: 2021/11/24 18:39:19 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:54:14 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,15 @@ void	reset_buffer(void *buff, size_t size)
 char	*get_line_from_junk(char *junk)
 {
 	char	*v;
+	size_t	i;
+	size_t	size;
 
+	i = 0;
+	while (*(junk + i) != 0 || *(junk + i) != '\n')
+		i++;
+	size = i;
+	v = malloc(i + 1);
+	if (v == NULL)
+		return (NULL);
 	return (v);
 }
