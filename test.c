@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 14:07:18 by ccambium          #+#    #+#             */
-/*   Updated: 2021/11/24 14:49:23 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/11/29 16:51:55 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	main(int ac, char **av)
 			s = get_next_line(fd);
 			if (s == NULL)
 			{
-				free(s);
 				break ;
 			}
 			printf("%s", s);

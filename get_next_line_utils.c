@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:28:53 by ccambium          #+#    #+#             */
-/*   Updated: 2021/11/24 18:49:28 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/11/29 17:45:52 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ int	is_line_in_junk(char *junk)
 {
 	size_t	i;
 
-	while (*(junk + i) != 0)
+	i = 0;
+	if (is_junk_empty(junk))
+		return (0);
+	while (junk[i] != 0)
 	{
-		i++;
-		if (*(junk + i) == '\n')
+		if (junk[i] == '\n')
 			return (1);
+		i++;
 	}
 	return (0);
 }
@@ -49,7 +52,31 @@ char	*remove_from_junk(char *junk, size_t size)
 	new_junk = malloc(new_size + 1);
 	if (new_junk == NULL)
 		return (NULL);
-	strlcpy(new_junk, junk + size, new_size);
+	ft_strlcpy(new_junk, junk + size, new_size);
 	free(junk);
 	return (new_junk);
+}
+
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	while (*(dst + i) != 0 && i < size && size != 0)
+		i++;
+	while (*(src + j) != 0 && i < size - 1 && size != 0)
+	{
+		*(dst + i) = *(src + j);
+		*(dst + i + 1) = 0;
+		i++;
+		j++;
+	}
+	while (*(src + j) != 0)
+	{
+		j++;
+		i++;
+	}
+	return (i);
 }
