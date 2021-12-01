@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:28:53 by ccambium          #+#    #+#             */
-/*   Updated: 2021/11/29 17:45:52 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/11/30 20:17:37 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ char	*remove_from_junk(char *junk, size_t size)
 	new_size = ft_strlen(junk) - size;
 	new_junk = malloc(new_size + 1);
 	if (new_junk == NULL)
+	{
+		free(junk);
 		return (NULL);
+	}
 	ft_strlcpy(new_junk, junk + size, new_size);
 	free(junk);
 	return (new_junk);
