@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:32:58 by ccambium          #+#    #+#             */
-/*   Updated: 2021/11/30 20:22:31 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/12/01 17:34:19 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ char	*move_to_junk(char *tmp, char *junk)
 			free(junk);
 			return (NULL);
 		}
-		ft_strlcpy(njunk, junk, ft_strlen(junk));
-		ft_strlcat(njunk, tmp, ft_strlen(tmp) + ft_strlen(junk));
+		ft_strlcpy(njunk, junk, ft_strlen(junk) + 1);
+		ft_strlcat(njunk, tmp, ft_strlen(tmp) + ft_strlen(junk) + 2);
 	}
 	else
 	{
@@ -35,7 +35,7 @@ char	*move_to_junk(char *tmp, char *junk)
 			free(junk);
 			return (NULL);
 		}
-		ft_strlcpy(njunk, tmp, ft_strlen(tmp));
+		ft_strlcpy(njunk, tmp, ft_strlen(tmp) + 1);
 	}
 	free(junk);
 	return (njunk);
@@ -48,9 +48,9 @@ char	*get_line_from_junk(char *junk)
 	size_t	size;
 
 	i = 0;
-	while (*(junk + i) != 0 && *(junk + i) != '\n')
+	while (*(junk + i) != '\n')
 		i++;
-	size = i;
+	size = i + 1;
 	v = malloc(size + 1);
 	if (v == NULL)
 		return (NULL);
@@ -90,8 +90,13 @@ char	*get_next_line(int fd)
 			return (NULL);
 		if (!read(fd, tmp, BUFFER_SIZE))
 		{
-			return (junk);
-			v = malloc(ft_strlen(junk + 1));
+			if(is_junk_empty(junk))
+			{
+				free(junk);
+				free(tmp);
+				return (NULL);
+			}
+			v = malloc(ft_strlen(junk) + 1);
 			ft_strlcpy(v, junk, ft_strlen(junk));
 			free(junk);
 			free(tmp);

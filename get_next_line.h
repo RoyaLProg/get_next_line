@@ -6,12 +6,12 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:04 by ccambium          #+#    #+#             */
-/*   Updated: 2021/11/29 17:35:44 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/12/01 16:11:48 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE
+# define GET_NEXT_LINE_H
 # include <unistd.h>
 # include <stdlib.h>
 
