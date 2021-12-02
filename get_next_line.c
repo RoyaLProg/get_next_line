@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:32:58 by ccambium          #+#    #+#             */
-/*   Updated: 2021/12/01 17:34:19 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/12/02 12:14:42 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,24 @@ char	*move_to_junk(char *tmp, char *junk)
 
 	if (!is_junk_empty(junk))
 	{
-		njunk = malloc(ft_strlen(tmp) + 2 + ft_strlen(junk));
+		njunk = malloc(BUFFER_SIZE + 1 + ft_strlen(junk));
 		if (njunk == NULL)
 		{
 			free(junk);
 			return (NULL);
 		}
 		ft_strlcpy(njunk, junk, ft_strlen(junk) + 1);
-		ft_strlcat(njunk, tmp, ft_strlen(tmp) + ft_strlen(junk) + 2);
+		ft_strlcat(njunk, tmp, BUFFER_SIZE + ft_strlen(junk) + 1);
 	}
 	else
 	{
-		njunk = malloc(ft_strlen(tmp) + 1);
+		njunk = malloc(BUFFER_SIZE + 1);
 		if (njunk == NULL)
 		{
 			free(junk);
 			return (NULL);
 		}
-		ft_strlcpy(njunk, tmp, ft_strlen(tmp) + 1);
+		ft_strlcpy(njunk, tmp, BUFFER_SIZE + 1);
 	}
 	free(junk);
 	return (njunk);
@@ -48,14 +48,13 @@ char	*get_line_from_junk(char *junk)
 	size_t	size;
 
 	i = 0;
-	while (*(junk + i) != '\n')
+	while (*(junk + i) != '\n' && *(junk + i))
 		i++;
 	size = i + 1;
 	v = malloc(size + 1);
 	if (v == NULL)
 		return (NULL);
 	ft_strlcpy(v, junk, size + 1);
-	junk = remove_from_junk(junk, size);
 	return (v);
 }
 
@@ -76,36 +75,43 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (i);
 }
 
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		*((char *)s + i) = 0;
+		i++;
+	}
+}
+
 char	*get_next_line(int fd)
 {
-	static char	*v;
+	char		*v;
 	static char	*junk;
-	char		*tmp;
 
-	junk = 0;
 	while (!is_line_in_junk(junk))
 	{
-		tmp = malloc(BUFFER_SIZE + 1);
-		if (tmp == NULL)
+		v = malloc(BUFFER_SIZE + 1);
+		if (v == NULL)
 			return (NULL);
-		if (!read(fd, tmp, BUFFER_SIZE))
+		ft_bzero(v, BUFFER_SIZE + 1);
+		if (!read(fd, v, BUFFER_SIZE))
 		{
-			if(is_junk_empty(junk))
-			{
-				free(junk);
-				free(tmp);
-				return (NULL);
-			}
-			v = malloc(ft_strlen(junk) + 1);
-			ft_strlcpy(v, junk, ft_strlen(junk));
+			free(v);
+			v = NULL;
+			if (!is_junk_empty(junk))
+				v = get_line_from_junk(junk);
 			free(junk);
-			free(tmp);
+			junk = 0;
 			return (v);
 		}
-		tmp[BUFFER_SIZE] = 0;
-		junk = move_to_junk(tmp, junk);
-		free(tmp);
+		junk = move_to_junk(v, junk);
+		free(v);
 	}
 	v = get_line_from_junk(junk);
+	junk = remove_line_from_junk(junk);
 	return (v);
 }

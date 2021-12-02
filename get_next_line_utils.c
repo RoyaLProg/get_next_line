@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:28:53 by ccambium          #+#    #+#             */
-/*   Updated: 2021/12/01 17:30:25 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/12/02 11:56:57 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,23 @@ int	is_line_in_junk(char *junk)
 	return (0);
 }
 
-char	*remove_from_junk(char *junk, size_t size)
+char	*remove_line_from_junk(char *junk)
 {
 	size_t	new_size;
 	char	*new_junk;
+	size_t	size;
 
-	new_size = ft_strlen(junk) - size;
+	size = 0;
+	while (*(junk + size) != '\n' && *(junk + size))
+		size++;
+	new_size = ft_strlen(junk) - size + 1;
 	new_junk = malloc(new_size + 1);
 	if (new_junk == NULL)
 	{
 		free(junk);
 		return (NULL);
 	}
-	ft_strlcpy(new_junk, junk + size - 1, new_size + 1);
+	ft_strlcpy(new_junk, junk + size + 1, new_size + 1);
 	free(junk);
 	return (new_junk);
 }
