@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:32:58 by ccambium          #+#    #+#             */
-/*   Updated: 2021/12/02 12:14:42 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/12/14 17:48:24 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	*get_line_from_junk(char *junk)
 	size_t	size;
 
 	i = 0;
+	if (junk[0] == 0)
+		return (NULL);
 	while (*(junk + i) != '\n' && *(junk + i))
 		i++;
 	size = i + 1;
@@ -91,6 +93,7 @@ char	*get_next_line(int fd)
 {
 	char		*v;
 	static char	*junk;
+	ssize_t		r;
 
 	while (!is_line_in_junk(junk))
 	{
@@ -98,14 +101,15 @@ char	*get_next_line(int fd)
 		if (v == NULL)
 			return (NULL);
 		ft_bzero(v, BUFFER_SIZE + 1);
-		if (!read(fd, v, BUFFER_SIZE))
+		r = read(fd, v, BUFFER_SIZE);
+		if (!r || r == -1)
 		{
 			free(v);
 			v = NULL;
 			if (!is_junk_empty(junk))
 				v = get_line_from_junk(junk);
 			free(junk);
-			junk = 0;
+			junk = NULL;
 			return (v);
 		}
 		junk = move_to_junk(v, junk);
