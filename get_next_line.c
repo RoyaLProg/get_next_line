@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:32:58 by ccambium          #+#    #+#             */
-/*   Updated: 2021/12/14 17:48:24 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/12/15 09:13:59 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,33 +60,41 @@ char	*get_line_from_junk(char *junk)
 	return (v);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+int	is_line_in_junk(char *junk)
 {
 	size_t	i;
 
 	i = 0;
-	while (*(src + i) != 0 && i < size - 1 && size != 0)
+	if (is_junk_empty(junk))
+		return (0);
+	while (junk[i] != 0)
 	{
-		*(dst + i) = *(src + i);
+		if (junk[i] == '\n')
+			return (1);
 		i++;
 	}
-	if (size != 0)
-		*(dst + i) = 0;
-	while (*(src + i) != 0)
-		i++;
-	return (i);
+	return (0);
 }
 
-void	ft_bzero(void *s, size_t n)
+char	*remove_line_from_junk(char *junk)
 {
-	size_t	i;
+	size_t	new_size;
+	char	*new_junk;
+	size_t	size;
 
-	i = 0;
-	while (i < n)
+	size = 0;
+	while (*(junk + size) != '\n' && *(junk + size))
+		size++;
+	new_size = ft_strlen(junk) - size + 1;
+	new_junk = malloc(new_size + 1);
+	if (new_junk == NULL)
 	{
-		*((char *)s + i) = 0;
-		i++;
+		free(junk);
+		return (NULL);
 	}
+	ft_strlcpy(new_junk, junk + size + 1, new_size + 1);
+	free(junk);
+	return (new_junk);
 }
 
 char	*get_next_line(int fd)
