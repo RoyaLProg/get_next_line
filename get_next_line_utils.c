@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:28:53 by ccambium          #+#    #+#             */
-/*   Updated: 2021/12/15 09:08:13 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:17:08 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,11 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
-int	is_junk_empty(char *junk)
+char	*ft_end(char *junk, char *v)
 {
-	return (junk == NULL || junk == 0);
+	free(v);
+	v = NULL;
+	if (!(junk == NULL || junk == 0))
+		v = get_line_from_junk(junk);
+	return (v);
 }

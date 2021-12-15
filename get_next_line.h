@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:04 by ccambium          #+#    #+#             */
-/*   Updated: 2021/12/15 09:12:31 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:17:52 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 #  define BUFFER_SIZE 42
 # endif
 
-int		is_junk_empty(char *junk);
 int		is_line_in_junk(char *junk);
 
+char	*ft_end(char *junk, char *v);
 char	*get_next_line(int fd);
 char	*get_line_from_junk(char *junk);
 char	*move_to_junk(char *tmp, char *junk);

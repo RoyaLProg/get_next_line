@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:32:58 by ccambium          #+#    #+#             */
-/*   Updated: 2021/12/15 09:13:59 by ccambium         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:17:01 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*move_to_junk(char *tmp, char *junk)
 {
 	char	*njunk;
 
-	if (!is_junk_empty(junk))
+	if (!(junk == NULL || junk == 0))
 	{
 		njunk = malloc(BUFFER_SIZE + 1 + ft_strlen(junk));
 		if (njunk == NULL)
@@ -65,7 +65,7 @@ int	is_line_in_junk(char *junk)
 	size_t	i;
 
 	i = 0;
-	if (is_junk_empty(junk))
+	if (junk == NULL || junk == 0)
 		return (0);
 	while (junk[i] != 0)
 	{
@@ -112,10 +112,7 @@ char	*get_next_line(int fd)
 		r = read(fd, v, BUFFER_SIZE);
 		if (!r || r == -1)
 		{
-			free(v);
-			v = NULL;
-			if (!is_junk_empty(junk))
-				v = get_line_from_junk(junk);
+			v = ft_end(junk, v);
 			free(junk);
 			junk = NULL;
 			return (v);
