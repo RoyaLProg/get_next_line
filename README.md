@@ -2,4 +2,6 @@
 
 This the 42 get_next_line project
 
-you browse throght it to get some ideas ^^
+you can browse throght it to get some ideas ^^
+
+//copy is cheating :p
